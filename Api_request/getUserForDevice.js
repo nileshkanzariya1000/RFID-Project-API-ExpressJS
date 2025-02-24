@@ -3,23 +3,21 @@ const moment = require('moment');
 
 async function getUserForDevice(req, res) {
     try {
-        const { ct_id, pass_key } = req.query;
+        const { pass_key } = req.query;
         
-        if (!ct_id) {
-            return res.status(400).json({ error: 'ct_id is required' });
-        }
+       
         if (!pass_key) {
             return res.status(400).json({ error: 'pass_key is required' });
         }
 
-        const result = await client.query('SELECT purchase_date, expire_date FROM client_token WHERE ct_id = $1 AND pass_key = $2', [ct_id, pass_key]);
+        const result = await client.query('SELECT ct_id,purchase_date, expire_date FROM client_token WHERE pass_key = $1', [pass_key]);
 
         if (result.rows.length === 0) {
-            return res.status(401).json({ message: 'Invalid API token or pass_key' });
+            return res.status(401).json({ message: 'Invalid API pass_key' });
         }
 
         // Since only one record is expected, directly access the first row
-        const { purchase_date, expire_date } = result.rows[0];
+        const { ct_id,purchase_date, expire_date } = result.rows[0];
 
         const purchaseDate = moment(purchase_date);
         const expireDate = moment(expire_date);
@@ -34,7 +32,10 @@ async function getUserForDevice(req, res) {
         if (result1.rows.length === 0) {
             return res.status(404).json({ message: 'User not found' });
         }
-        return res.status(200).json(result1.rows);
+        return res.status(200).json({data:result1.rows,
+            count:result1.rows.length,
+            modifiedon: "2025-02-19 05:06:59"
+        });
 
     } catch (err) {
         console.error("Error occurred while fetching user data:", err);
