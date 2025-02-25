@@ -10,6 +10,7 @@ const userRegister = require('./Api_request/userRegister');
 const clientRegister = require('./Api_request/clientRegister');
 const clientUpdate = require('./Api_request/clientUpdate');
 const userUpdate = require('./Api_request/userUpdate');
+const userChangePassword = require('./Api_request/userChangePassword');
 const app = express();
 const port = 3000;
 
@@ -25,6 +26,7 @@ app.post('/userRegister',userRegister);
 app.post('/clientRegister',clientRegister);
 app.put('/clientUpdate',clientUpdate);
 app.put('/userUpdate',userUpdate);
+app.put('/userChangePassword',userChangePassword)
 // Start the server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
