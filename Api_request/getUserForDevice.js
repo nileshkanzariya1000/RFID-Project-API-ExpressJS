@@ -28,10 +28,10 @@ async function getUserForDevice(req, res) {
         if(!isValid){
             return res.status(401).json({ message: 'Yor API is Expire' });
         }
-        const result1 = await client.query('SELECT u.user_id,u.rfid, u.name, s.designation FROM users u JOIN section s ON u.user_id = s.user_id WHERE s.ct_id = $1', [ct_id]);
+        const result1 = await client.query('SELECT u.user_id,s.rfid, u.name, s.designation FROM users u JOIN section s ON u.user_id = s.user_id WHERE s.ct_id = $1', [ct_id]);
         if (result1.rows.length === 0) {
             return res.status(404).json({ message: 'User not found' });
-        }
+        } 
         return res.status(200).json({data:result1.rows,
             count:result1.rows.length,
             modifiedon: "2025-02-19 05:06:59"
