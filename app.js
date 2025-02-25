@@ -8,6 +8,8 @@ const saveRfid = require('./Api_request/saveRfid');
 const userRegister = require('./Api_request/userRegister');
 
 const clientRegister = require('./Api_request/clientRegister');
+const clientUpdate = require('./Api_request/clientUpdate');
+const userUpdate = require('./Api_request/userUpdate');
 const app = express();
 const port = 3000;
 
@@ -21,6 +23,8 @@ app.get('/getUserForDevice',getUserForDevice);
 app.post('/saveRfid',saveRfid);
 app.post('/userRegister',userRegister);
 app.post('/clientRegister',clientRegister);
+app.put('/clientUpdate',clientUpdate);
+app.put('/userUpdate',userUpdate);
 // Start the server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
