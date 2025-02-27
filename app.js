@@ -16,6 +16,13 @@ const getUserSubject = require('./Api_request/getUserSubjects');
 const getClientSubjects = require('./Api_request/getClientSubjects');
 const addUserSubject = require('./Api_request/addUserSubject');
 const getUserSubjects = require('./Api_request/getUserSubjects');
+const deleteUserFromSubject = require('./Api_request/deleteUserFromSubject');
+const editUserInSubject = require('./Api_request/editUserInSubject');
+const addNewToken = require('./Api_request/addNewToken');
+const editTokenDetails = require('./Api_request/editTokenDetails');
+const getTokensForClient = require('./Api_request/getTokensForClient');
+const getTokensForAdmin = require('./Api_request/getTokensForAdmin');
+
 const app = express();
 const port = 3000;
 
@@ -34,8 +41,14 @@ app.put('/userUpdate',userUpdate);
 app.put('/userChangePassword',userChangePassword);
 app.put('/clientChangePassword',clientChangePassword);
 app.get('/getUserSubjects',getUserSubjects);
-app.get('/getClientSubjects',getClientSubjects)
-app.post('/addUserSubject',addUserSubject)
+app.get('/getClientSubjects',getClientSubjects);
+app.post('/addUserSubject',addUserSubject);
+app.delete('/deleteUserFromSubject',deleteUserFromSubject);
+app.put('/editUserInsubject',editUserInSubject);
+app.post('/addNewToken',addNewToken);
+app.put('/editTokenDetails',editTokenDetails);
+app.get('/getTokensForClient',getTokensForClient);
+app.get('/getTokensForAdmin',getTokensForAdmin);
 // Start the server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
