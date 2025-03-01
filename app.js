@@ -22,6 +22,8 @@ const addNewToken = require('./Api_request/addNewToken');
 const editTokenDetails = require('./Api_request/editTokenDetails');
 const getTokensForClient = require('./Api_request/getTokensForClient');
 const getTokensForAdmin = require('./Api_request/getTokensForAdmin');
+const addNewSubject = require('./Api_request/addNewSubject');
+const editSubject = require('./Api_request/editSubject');
 
 const app = express();
 const port = 3000;
@@ -49,6 +51,8 @@ app.post('/addNewToken',addNewToken);
 app.put('/editTokenDetails',editTokenDetails);
 app.get('/getTokensForClient',getTokensForClient);
 app.get('/getTokensForAdmin',getTokensForAdmin);
+app.post('/addNewSubject',addNewSubject);
+app.put('/editSubject',editSubject);
 // Start the server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
