@@ -5,7 +5,7 @@ async function editUserInSubject(req, res) {
 
   // Check if ct_id, user_id, and at least one field to update is provided
   if (!ct_id || !user_id || (!designation && !rfid)) {
-    return res.status(400).json({ error: "ct_id, user_id, and at least one field (designation, rfid) are required" });
+    return res.status(400).json({ success:false,message: "ct_id, user_id, and at least one field (designation, rfid) are required" });
   }
 
   try {
@@ -16,7 +16,7 @@ async function editUserInSubject(req, res) {
     );
 
     if (sectionCheck.rows.length === 0) {
-      return res.status(404).json({ error: "No such user found in this subject" });
+      return res.status(404).json({ success:false,message: "No such user found in this subject" });
     }
 
     // Dynamically build the SET clause for updating only the provided fields
@@ -40,12 +40,13 @@ async function editUserInSubject(req, res) {
     const updateResult = await client.query(queryStr, values);
 
     res.status(200).json({
+      success:true,
       message: "User updated successfully"
     });
 
   } catch (err) {
     console.error("Error updating user in subject:", err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ success:false,message: err.message });
   }
 }
 

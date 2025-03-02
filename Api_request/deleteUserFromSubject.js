@@ -5,7 +5,7 @@ async function deleteUserFromSubject(req, res) {
 
   // Check if ct_id and user_id are provided
   if (!ct_id || !user_id) {
-    return res.status(400).json({ error: "Both ct_id and user_id are required" });
+    return res.status(400).json({ success:false,message: "Both ct_id and user_id are required" });
   }
 
   try {
@@ -16,7 +16,7 @@ async function deleteUserFromSubject(req, res) {
     );
 
     if (sectionCheck.rows.length === 0) {
-      return res.status(404).json({ error: "No such user found in this subject" });
+      return res.status(404).json({ success:false,message: "No such user found in this subject" });
     }
 
     // Delete the record from the "section" table
@@ -26,12 +26,13 @@ async function deleteUserFromSubject(req, res) {
     );
 
     res.status(200).json({
+      success:true,
       message: "User removed from subject successfully",
     });
 
   } catch (err) {
     console.error("Error deleting user from subject:", err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ success:false,message: err.message });
   }
 }
 

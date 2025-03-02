@@ -5,7 +5,7 @@ async function addNewSubject(req, res) {
 
   // Validate input fields
   if (!token_id || !pass_key || !status || !purchase_date || !expire_date || !client_id || !subject_name) {
-    return res.status(400).json({ error: "All fields (token_id, pass_key, status, purchase_date, expire_date, client_id,subject_name) are required" });
+    return res.status(400).json({ success:false,message: "All fields (token_id, pass_key, status, purchase_date, expire_date, client_id,subject_name) are required" });
   }
 
   try {
@@ -18,12 +18,13 @@ async function addNewSubject(req, res) {
 
     // Send response after successful insertion
     res.status(201).json({
+      success: true,
       message: "New subject added successfully",
     });
 
   } catch (err) {
     console.error("Error adding new subject:", err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ success:false,message: err.message });
   }
 }
 

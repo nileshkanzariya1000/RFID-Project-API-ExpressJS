@@ -4,7 +4,7 @@ async function userUpdate(req, res) {
   const { user_id, name, email, mobile } = req.body;
 
   if (!user_id || !name || !email || !mobile) {
-    return res.status(400).json({ error: "Missing required fields" });
+    return res.status(400).json({  success:false,message: "Missing required fields" });
   }
 
   try {
@@ -12,7 +12,7 @@ async function userUpdate(req, res) {
     const clientCheck = await client.query("SELECT * FROM users WHERE user_id = $1", [user_id]);
     
     if (clientCheck.rows.length === 0) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({  success:false,message: "User not found" });
     }
 
     // Update client details
@@ -21,9 +21,11 @@ async function userUpdate(req, res) {
       [name, email, mobile, user_id]
     );
 
-    res.status(200).json({ message: "User updated successfully" });
+    res.status(200).json({ 
+      success: true,
+      message: "User updated successfully" });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ success:false,message: err.message });
   }
 }
 

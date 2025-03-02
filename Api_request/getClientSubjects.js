@@ -4,7 +4,7 @@ async function getClientSubjects(req, res) {
   const { client_id } = req.query;
 
   if (!client_id) {
-    return res.status(400).json({ error: "Client ID is required" });
+    return res.status(400).json({ success:false,message: "Client ID is required" });
   }
 
   try {
@@ -16,14 +16,14 @@ async function getClientSubjects(req, res) {
     );
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ error: "No subjects found for this client" });
+      return res.status(404).json({ success:false,message: "No subjects found for this client" });
     }
 
-    res.status(200).json(result.rows);
+    res.status(200).json({success:true,data:result.rows});
 
   } catch (err) {
     console.error("Error fetching client subjects:", err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ success:false,message: err.message });
   }
 }
 

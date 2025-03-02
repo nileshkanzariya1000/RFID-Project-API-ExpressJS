@@ -5,7 +5,7 @@ async function updateToken(req, res) {
   const { ct_id, token_id } = req.body;
 
   if (!ct_id || !token_id) {
-    return res.status(400).json({ error: "Missing required fields (ct_id, token_id)" });
+    return res.status(400).json({ success:false,message: "Missing required fields (ct_id, token_id)" });
   }
 
   try {
@@ -16,7 +16,7 @@ async function updateToken(req, res) {
     );
 
     if (tokenDetailQuery.rows.length === 0) { 
-      return res.status(404).json({ error: "Token ID not found in token_detail" });
+      return res.status(404).json({ success:false,message: "Token ID not found in token_detail" });
     }
 
     const durationDays = tokenDetailQuery.rows[0].duration_day;
@@ -28,7 +28,7 @@ async function updateToken(req, res) {
     );
 
     if (clientTokenQuery.rows.length === 0) {
-      return res.status(404).json({ error: "Invalid client token ID" });
+      return res.status(404).json({ success:false,message: "Invalid client token ID" });
     }
 
     let { purchase_date, expire_date, status } = clientTokenQuery.rows[0];
@@ -74,7 +74,7 @@ async function updateToken(req, res) {
     );
 
     if (updateQuery.rowCount === 0) {
-      return res.status(404).json({ error: "Failed to update. No matching record found." });
+      return res.status(404).json({ success:false,message: "Failed to update. No matching record found." });
     }
 
     // 8️⃣ Return success response with updated details
@@ -88,7 +88,7 @@ async function updateToken(req, res) {
     });
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ success:false,message: err.message });
   }
 }
 

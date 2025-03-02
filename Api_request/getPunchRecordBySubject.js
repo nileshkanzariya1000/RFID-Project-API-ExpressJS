@@ -9,7 +9,7 @@ async function getPunchRecordBySubject(req, res) {
 
     // Validate required parameter
     if (!ct_id) {
-      return res.status(400).json({ message: "ct_id is required" });
+      return res.status(400).json({ success:false,message: "ct_id is required" });
     }
 
     // Convert from_date and to_date to Unix timestamps (seconds)
@@ -18,7 +18,7 @@ async function getPunchRecordBySubject(req, res) {
     if (from_date) {
       fromTimestamp = Math.floor(new Date(from_date).setHours(0, 0, 0, 0) / 1000);
     } else {
-      return res.status(400).json({ message: "from_date is required" });
+      return res.status(400).json({ success:false,message: "from_date is required" });
     }
 
     // If to_date is not provided, set it to today's date at 23:59:59
@@ -51,7 +51,7 @@ async function getPunchRecordBySubject(req, res) {
     console.log("Query result:", result.rows);
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ message: "No punch records found for this date range" });
+      return res.status(404).json({ success:false,message: "No punch records found for this date range" });
     }
 
     // Convert Unix timestamp to readable date format
@@ -62,11 +62,11 @@ async function getPunchRecordBySubject(req, res) {
       timestamp: new Date(row.timestamp * 1000).toISOString().replace("T", " ").split(".")[0] // Convert to readable date
     }));
 
-    res.status(200).json({ ct_id: ct_id, data: formattedData });
+    res.status(200).json({ ct_id: ct_id, success: true,data: formattedData });
 
   } catch (err) {
     console.error("Error fetching punch record:", err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ success:false,message: err.message });
   }
 }
 

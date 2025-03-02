@@ -7,7 +7,7 @@ async function getPunchRecordByUser(req, res) {
 
     // Validate required inputs
     if (!user_id || !ct_id) {
-      return res.status(400).json({ message: "user_id and ct_id are required" });
+      return res.status(400).json({ success:false,message: "user_id and ct_id are required" });
     }
 
     let query = `SELECT * FROM punch WHERE user_id = $1 AND ct_id = $2`;
@@ -37,7 +37,7 @@ async function getPunchRecordByUser(req, res) {
     console.log("Query result:", result.rows);
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ message: "Punch record not found" });
+      return res.status(404).json({ success:false,message: "Punch record not found" });
     }
 
     // Convert timestamps to readable date and time using Moment.js with timezone
@@ -49,12 +49,13 @@ async function getPunchRecordByUser(req, res) {
       }));
 
     res.status(200).json({
+      success:true,
       data: formattedData
     });
 
   } catch (err) {
     console.error("Error fetching punch record:", err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ success:false,message: err.message });
   }
 }
 

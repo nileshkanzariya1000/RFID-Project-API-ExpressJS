@@ -5,7 +5,7 @@ async function addNewToken(req, res) {
 
   // Validate input fields
   if (!name || !price || !duration_day || !description) {
-    return res.status(400).json({ error: "All fields (name, price, duration_day, description) are required" });
+    return res.status(400).json({ success:false,message: "All fields (name, price, duration_day, description) are required" });
   }
 
   try {
@@ -18,12 +18,13 @@ async function addNewToken(req, res) {
 
     // Send response after successful insertion
     res.status(201).json({
+      success: true,
       message: "New token added successfully",
     });
 
   } catch (err) {
     console.error("Error adding new token:", err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ success:false,message: err.message });
   }
 }
 

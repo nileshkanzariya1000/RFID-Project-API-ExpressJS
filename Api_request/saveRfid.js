@@ -15,13 +15,13 @@ async function saveRfid(req, res) {
     const { pass_key, users } = req.body;
 
     if (!pass_key || !users || !Array.isArray(users)) {
-      return res.status(400).json({ message: "Invalid data format" });
+      return res.status(400).json({ success:false,message: "Invalid data format" });
     }
 
     const result = await client.query('SELECT ct_id,  purchase_date, expire_date FROM client_token WHERE pass_key = $1', [pass_key]);
 
     if (result.rows.length === 0) {
-      return res.status(401).json({ message: 'Invalid pass_key' });
+      return res.status(401).json({ success:false,message: 'Invalid pass_key' });
     }
 
     // Extracting relevant data
@@ -32,7 +32,7 @@ async function saveRfid(req, res) {
 
     const isValid = currentDate.isBetween(purchaseDate, expireDate, null, '[]');
     if (!isValid) {
-      return res.status(401).json({ message: 'Your API has expired' });
+      return res.status(401).json({ success:false,message: 'Your API has expired' });
     }
 
     const chunkedUsers = chunkArray(users, 10);
@@ -48,11 +48,13 @@ async function saveRfid(req, res) {
       await Promise.all(insertPromises);
     }
 
-    res.status(200).json({ message: 'Users data saved successfully' });
+    res.status(200).json({
+      success: true,
+      message: 'Users data saved successfully' });
 
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ success:false,message: err.message });
   }
 }
 

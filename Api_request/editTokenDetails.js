@@ -5,12 +5,12 @@ async function editTokenDetails(req, res) {
 
   // Validate input fields
   if (!token_id || (!name && !price && !duration_day && !description && status === undefined)) {
-    return res.status(400).json({ error: "token_id is required and at least one field to update (name, price, duration_day, description, status) must be provided" });
+    return res.status(400).json({ success:false,message: "token_id is required and at least one field to update (name, price, duration_day, description, status) must be provided" });
   }
 
   // Validate status field (if provided) to be either 0 or 1
   if (status !== undefined && status !== 0 && status !== 1) {
-    return res.status(400).json({ error: "status must be either 0 or 1" });
+    return res.status(400).json({ success:false,message: "status must be either 0 or 1" });
   }
 
   try {
@@ -21,7 +21,7 @@ async function editTokenDetails(req, res) {
     );
 
     if (tokenCheck.rows.length === 0) {
-      return res.status(404).json({ error: "Token not found" });
+      return res.status(404).json({ success:false,message: "Token not found" });
     }
 
     // Dynamically build the SET clause for updating only the provided fields
@@ -57,12 +57,13 @@ async function editTokenDetails(req, res) {
     const updateResult = await client.query(queryStr, values);
 
     res.status(200).json({
+      success:true,
       message: "Token updated successfully",
     });
 
   } catch (err) {
     console.error("Error updating token:", err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ success:false,message: err.message });
   }
 }
 

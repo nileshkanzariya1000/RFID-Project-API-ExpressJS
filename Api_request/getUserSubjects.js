@@ -4,7 +4,7 @@ async function getUserSubjects(req, res) {
   const { user_id } = req.query;
 
   if (!user_id) {
-    return res.status(400).json({ error: "User ID is required" });
+    return res.status(400).json({ success:false,message: "User ID is required" });
   }
 
   try {
@@ -17,14 +17,14 @@ async function getUserSubjects(req, res) {
     );
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ error: "No subjects found for this user" });
+      return res.status(404).json({ success:false,message: "No subjects found for this user" });
     }
 
-    res.status(200).json(result.rows);
+    res.status(200).json({success:true,data:result.rows});
 
   } catch (err) {
     console.error("Error fetching subjects:", err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ success:false,message: err.message });
   }
 }
 

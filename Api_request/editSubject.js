@@ -5,7 +5,7 @@ async function editSubject(req, res) {
 
   // Validate input fields
   if (!ct_id || !client_id || !subject_name) {
-    return res.status(400).json({ error: "ct_id, client_id, and subject_name are required" });
+    return res.status(400).json({ success:false,message: "ct_id, client_id, and subject_name are required" });
   }
 
   try {
@@ -20,18 +20,19 @@ async function editSubject(req, res) {
 
     // Check if the update affected any rows
     if (result.rowCount === 0) {
-      return res.status(404).json({ error: "Subject not found or you are not authorized to edit this subject." });
+      return res.status(404).json({ success:false,message: "Subject not found or you are not authorized to edit this subject." });
     }
 
     // Return the updated subject data
     res.status(200).json({
+      success: true,
       message: "Subject name updated successfully",
      
     });
 
   } catch (err) {
     console.error("Error updating subject:", err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ success:false,message: err.message });
   }
 }
 
