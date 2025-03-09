@@ -6,7 +6,7 @@ const client = new Client({
   host: 'localhost',
   port: 5432,
   user: 'postgres',
-  password: 'Nileshk1214@',  // Note: sensitive info should not be hardcoded in production
+  password: 'Sumit@1102',  // Note: sensitive info should not be hardcoded in production
   database: 'RFID',
 });
 
