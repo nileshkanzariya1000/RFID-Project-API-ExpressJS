@@ -30,6 +30,7 @@ const getPunchRecordBySubject = require('./Api_request/getPunchRecordBySubject')
 const { getClientSubjectDetails } = require('./Api_request/getClientSubjectDetails');
 const { getUserSubjectDetails } = require('./Api_request/getUserSubjectDetalis');
 const getUserWhichInSubject = require('./Api_request/getUserWhichInSubject');
+const getTokenById = require('./Api_request/getTokenById');
 const app = express();
 const port = 3000;
 
@@ -64,6 +65,7 @@ app.get ('/getPunchRecordBySubject',getPunchRecordBySubject);
 app.get('/getClientSubjectDetails',getClientSubjectDetails);
 app.get ('/getUserSubjectDetalis',getUserSubjectDetails);
 app.get('/getUserWhichInSubject',getUserWhichInSubject);
+app.get('/getTokenById',getTokenById);
 // Start the server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

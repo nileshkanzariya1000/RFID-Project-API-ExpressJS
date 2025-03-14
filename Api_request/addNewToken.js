@@ -16,7 +16,7 @@ async function addNewToken(req, res) {
       [name, price, duration_day, description]
     );
 
-    // Send response after successful insertion
+    // Send response after successful insePrtion
     res.status(201).json({
       success: true,
       message: "New token added successfully",
