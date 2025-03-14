@@ -70,7 +70,7 @@ async function updateToken(req, res) {
       `UPDATE client_token 
        SET purchase_date = $1, expire_date = $2, token_id = $3, status = 1
        WHERE ct_id = $4`,
-      [purchase_date, newExpireDate, token_id, ct_id]
+      [today, newExpireDate, token_id, ct_id]
     );
 
     if (updateQuery.rowCount === 0) {
