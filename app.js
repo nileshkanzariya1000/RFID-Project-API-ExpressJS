@@ -36,6 +36,7 @@ const getAllUsers = require("./Api_request/getAllUsers");
 const adminChangePassword = require('./Api_request/adminChangePassword');
 const updateClientStatus = require('./Api_request/updateClientStatus');
 const updateUserStatus = require('./Api_request/updateUserStatus');
+const getPurchasedTokens = require('./Api_request/getPurchasedTokens');
 const app = express();
 const port = 3000;
 
@@ -76,6 +77,7 @@ app.get("/getAllClients", getAllClients);
 app.get('/getAllUsers', getAllUsers);
 app.put('/updateClientStatus', updateClientStatus);
 app.put('/updateUserStatus', updateUserStatus);
+app.get('/getPurchasedTokens', getPurchasedTokens);
 // Start the server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
