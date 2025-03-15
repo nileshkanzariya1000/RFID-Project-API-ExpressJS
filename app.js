@@ -31,6 +31,11 @@ const { getClientSubjectDetails } = require('./Api_request/getClientSubjectDetai
 const { getUserSubjectDetails } = require('./Api_request/getUserSubjectDetalis');
 const getUserWhichInSubject = require('./Api_request/getUserWhichInSubject');
 const getTokenById = require('./Api_request/getTokenById');
+const getAllClients = require("./Api_request/getAllClients");
+const getAllUsers = require("./Api_request/getAllUsers");
+const adminChangePassword = require('./Api_request/adminChangePassword');
+const updateClientStatus = require('./Api_request/updateClientStatus');
+const updateUserStatus = require('./Api_request/updateUserStatus');
 const app = express();
 const port = 3000;
 
@@ -48,6 +53,7 @@ app.put('/clientUpdate',clientUpdate);
 app.put('/userUpdate',userUpdate);
 app.put('/userChangePassword',userChangePassword);
 app.put('/clientChangePassword',clientChangePassword);
+app.put('/adminChangePassword',adminChangePassword);
 app.get('/getUserSubjects',getUserSubjects);
 app.get('/getClientSubjects',getClientSubjects);
 app.post('/addUserSubject',addUserSubject);
@@ -66,6 +72,10 @@ app.get('/getClientSubjectDetails',getClientSubjectDetails);
 app.get ('/getUserSubjectDetalis',getUserSubjectDetails);
 app.get('/getUserWhichInSubject',getUserWhichInSubject);
 app.get('/getTokenById',getTokenById);
+app.get("/getAllClients", getAllClients);
+app.get('/getAllUsers', getAllUsers);
+app.put('/updateClientStatus', updateClientStatus);
+app.put('/updateUserStatus', updateUserStatus);
 // Start the server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
