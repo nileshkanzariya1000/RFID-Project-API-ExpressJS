@@ -11,10 +11,13 @@ const chunkArray = (array, size) => {
 };
 
 async function saveRfid(req, res) {
+  console.log(req.body);
   try {
-    const { pass_key, users } = req.body;
-
-    if (!pass_key || !users || !Array.isArray(users)) {
+    
+    const pass_key = req.headers.token;
+    const { scanrecords } = req.body;
+    
+        if (!pass_key || !scanrecords || !Array.isArray(scanrecords)) {
       return res.status(400).json({ success:false,message: "Invalid data format" });
     }
 
@@ -35,13 +38,13 @@ async function saveRfid(req, res) {
       return res.status(401).json({ success:false,message: 'Your API has expired' });
     }
 
-    const chunkedUsers = chunkArray(users, 10);
+    const chunkedUsers = chunkArray(scanrecords, 10);
 
     for (let chunk of chunkedUsers) {
       const insertPromises = chunk.map(user => {
         return client.query(
           'INSERT INTO punch (user_id, ct_id, timestamp) VALUES ($1, $2, $3)',
-          [user.uid, ct_id, user.timestamp]
+          [user.user, ct_id, user.date]
         );
       });
 

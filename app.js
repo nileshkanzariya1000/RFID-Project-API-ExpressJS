@@ -1,5 +1,10 @@
 const express = require('express');
-const cors = require('cors'); 
+const cors = require('cors');
+const https = require('https');
+const http = require('http');  // Add HTTP module
+const fs = require('fs'); 
+
+
 const adminLogin = require('./Api_request/adminLogin'); 
 const clientLogin = require('./Api_request/clientLogin');
 const userLogin = require('./Api_request/userLogin');
@@ -37,8 +42,13 @@ const adminChangePassword = require('./Api_request/adminChangePassword');
 const updateClientStatus = require('./Api_request/updateClientStatus');
 const updateUserStatus = require('./Api_request/updateUserStatus');
 const getPurchasedTokens = require('./Api_request/getPurchasedTokens');
+
 const app = express();
 const port = 3000;
+// Load SSL certificate and key files
+const privateKey = fs.readFileSync('E:/RFID Project API ExpressJS/ssl/key.pem', 'utf8');
+const certificate = fs.readFileSync('E:/RFID Project API ExpressJS/ssl/cert.pem', 'utf8');
+const credentials = { key: privateKey, cert: certificate };
 
 app.use(cors());
 app.use(express.json());  // To parse JSON bodies
@@ -79,6 +89,19 @@ app.put('/updateClientStatus', updateClientStatus);
 app.put('/updateUserStatus', updateUserStatus);
 app.get('/getPurchasedTokens', getPurchasedTokens);
 // Start the server
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+const httpsServer = https.createServer(credentials, app);
+
+// Create HTTP server (non-secure)
+const httpServer = http.createServer(app);
+
+
+
+// Start the HTTPS server on port 3001
+httpsServer.listen(3001, () => {
+  console.log(`HTTPS server running on https://localhost:3001`);
+});
+
+// Start the HTTP server on port 3000 (or 80)
+httpServer.listen(3000, () => {
+  console.log(`HTTP server running on http://localhost:3000`);
 });
