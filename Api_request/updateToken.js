@@ -33,9 +33,9 @@ async function updateToken(req, res) {
 
     let { purchase_date, expire_date, status } = clientTokenQuery.rows[0];
     const today = moment().format("YYYY-MM-DD");
-
+    console.log(status);
     // 3️⃣ If status = 0, return "Plan not purchased"
-    if (status === 0) {
+    if (status == 1) {
       return res.status(403).json({
         success: false,
         message: "Plan not purchased (deactivated)",
