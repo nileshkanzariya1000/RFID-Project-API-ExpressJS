@@ -38,7 +38,7 @@ async function getUserForDevice(req, res) {
 
         // Query to get the users with pagination
         const result1 = await client.query(
-            'SELECT u.user_id, s.rfid, u.name, s.designation FROM users u JOIN section s ON u.user_id = s.user_id WHERE s.ct_id = $1 LIMIT $2 OFFSET $3',
+            'SELECT u.user_id as id, s.rfid, u.name, s.designation as detail FROM users u JOIN section s ON u.user_id = s.user_id WHERE s.ct_id = $1 LIMIT $2 OFFSET $3',
             [ct_id, pageSize, offset]
         );
 
