@@ -53,7 +53,7 @@ async function getUserForDevice(req, res) {
         );
 
         const totalCount = parseInt(countResult.rows[0].count);
-
+        console.log(result1.rows);
         return res.status(200).json({
             success: true,
             users: result1.rows,

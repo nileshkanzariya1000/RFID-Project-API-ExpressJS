@@ -46,8 +46,8 @@ const getPurchasedTokens = require('./Api_request/getPurchasedTokens');
 const app = express();
 const port = 3000;
 // Load SSL certificate and key files
-const privateKey = fs.readFileSync('D:/RFID-Project-API-ExpressJS/ssl/key.pem', 'utf8');
-const certificate = fs.readFileSync('D:/RFID-Project-API-ExpressJS/ssl/cert.pem', 'utf8');
+const privateKey = fs.readFileSync('E:/RFID Project API ExpressJS/ssl/key.pem', 'utf8');
+const certificate = fs.readFileSync('E:/RFID Project API ExpressJS/ssl/cert.pem', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 
 app.use(cors());

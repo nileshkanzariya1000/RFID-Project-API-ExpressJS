@@ -68,7 +68,7 @@ async function updateToken(req, res) {
     // 7️⃣ Update purchase_date, expire_date, token_id, and set status = 1 (active)
     const updateQuery = await pool.query(
       `UPDATE client_token 
-       SET purchase_date = $1, expire_date = $2, token_id = $3, status = 1
+       SET purchase_date = $1, expire_date = $2, token_id = $3, status = 0
        WHERE ct_id = $4`,
       [today, newExpireDate, token_id, ct_id]
     );

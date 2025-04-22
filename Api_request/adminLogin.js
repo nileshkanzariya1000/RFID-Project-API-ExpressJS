@@ -14,12 +14,12 @@ async function adminLogin(req, res) {
     const result = await client.query('SELECT * FROM admin WHERE username = $1', [username]);
 
     if (result.rows.length === 0) {
-      return res.status(401).json({ success:false,message: 'Invalid email or password' });
+      return res.status(401).json({ success:false,message: 'Invalid Username or password' });
     }
 
     const admin = result.rows[0];
     if (admin.password !== password) {
-      return res.status(401).json({ success:false,message: 'Invalid email or password' });
+      return res.status(401).json({ success:false,message: 'Invalid Username or password' });
     }
 
     res.json({ 
