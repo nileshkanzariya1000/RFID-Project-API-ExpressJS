@@ -4,7 +4,7 @@ async function addNewSubject(req, res) {
   const { token_id, pass_key, status, purchase_date, expire_date, client_id ,subject_name} = req.body;
 
   // Validate input fields
-  if (!token_id || !pass_key || !status || !purchase_date || !expire_date || !client_id || !subject_name) {
+  if (!token_id || !pass_key ||  !purchase_date || !expire_date || !client_id || !subject_name) {
     return res.status(400).json({ success:false,message: "All fields (token_id, pass_key, status, purchase_date, expire_date, client_id,subject_name) are required" });
   }
 
