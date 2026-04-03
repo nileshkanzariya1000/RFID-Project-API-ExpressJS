@@ -1,11 +1,12 @@
 const client = require("../config/db");
 
 async function addNewSubject(req, res) {
-  const { token_id, pass_key, status, purchase_date, expire_date, client_id ,subject_name} = req.body;
+  const { token_id, pass_key, status, purchase_date, expire_date, client_id, subject_name } = req.body;
 
-  // Validate input fields
-  if (!token_id || !pass_key || !status || !purchase_date || !expire_date || !client_id || !subject_name) {
-    return res.status(400).json({ success:false,message: "All fields (token_id, pass_key, status, purchase_date, expire_date, client_id,subject_name) are required" });
+  // Validate input fields (allow status to be 0)
+  if (!token_id || !pass_key || status === undefined || status === null || !purchase_date || !expire_date || !client_id || !subject_name) {
+    console.log("Missing Field Detected:", { token_id, pass_key, status, purchase_date, expire_date, client_id, subject_name });
+    return res.status(400).json({ success: false, message: "All fields (token_id, pass_key, status, purchase_date, expire_date, client_id,subject_name) are required" });
   }
 
   try {
@@ -13,7 +14,7 @@ async function addNewSubject(req, res) {
     const result = await client.query(
       `INSERT INTO client_token (token_id, pass_key, status, purchase_date, expire_date, client_id,subject_name) 
        VALUES ($1, $2, $3, $4, $5, $6,$7)`,
-      [token_id, pass_key, status, purchase_date, expire_date, client_id ,subject_name]
+      [token_id, pass_key, status, purchase_date, expire_date, client_id, subject_name]
     );
 
     // Send response after successful insertion
@@ -24,7 +25,7 @@ async function addNewSubject(req, res) {
 
   } catch (err) {
     console.error("Error adding new subject:", err);
-    res.status(500).json({ success:false,message: err.message });
+    res.status(500).json({ success: false, message: err.message });
   }
 }
 

@@ -2,10 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const https = require('https');
 const http = require('http');  // Add HTTP module
-const fs = require('fs'); 
+const fs = require('fs');
 
 
-const adminLogin = require('./Api_request/adminLogin'); 
+const adminLogin = require('./Api_request/adminLogin');
 const clientLogin = require('./Api_request/clientLogin');
 const userLogin = require('./Api_request/userLogin');
 const getUserForDevice = require('./Api_request/getUserForDevice');
@@ -42,12 +42,17 @@ const adminChangePassword = require('./Api_request/adminChangePassword');
 const updateClientStatus = require('./Api_request/updateClientStatus');
 const updateUserStatus = require('./Api_request/updateUserStatus');
 const getPurchasedTokens = require('./Api_request/getPurchasedTokens');
+const applyLeave = require('./Api_request/applyLeave');
+const getUserLeaves = require('./Api_request/getUserLeaves');
+const getAllLeaveRequests = require('./Api_request/getAllLeaveRequests');
+const updateLeaveStatus = require('./Api_request/updateLeaveStatus');
+const getClientDashboardStats = require('./Api_request/getClientDashboardStats');
 
 const app = express();
 const port = 3000;
 // Load SSL certificate and key files
-const privateKey = fs.readFileSync('D:/RFID-Project-API-ExpressJS/ssl/key.pem', 'utf8');
-const certificate = fs.readFileSync('D:/RFID-Project-API-ExpressJS/ssl/cert.pem', 'utf8');
+const privateKey = fs.readFileSync('C:/Users/kakadiya nishil/Desktop/rfid-react-project/RFID-Project-API-ExpressJS/ssl/key.pem', 'utf8');
+const certificate = fs.readFileSync('C:/Users/kakadiya nishil/Desktop/rfid-react-project/RFID-Project-API-ExpressJS/ssl/cert.pem', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 
 app.use(cors());
@@ -56,38 +61,44 @@ app.use(express.json());  // To parse JSON bodies
 app.post('/adminlogin', adminLogin);
 app.post('/clientlogin', clientLogin);
 app.post('/userlogin', userLogin);
-app.get('/getUserForDevice',getUserForDevice);
-app.post('/saveRfid',saveRfid);
-app.post('/userRegister',userRegister);
-app.post('/clientRegister',clientRegister);
-app.put('/clientUpdate',clientUpdate);
-app.put('/userUpdate',userUpdate);
-app.put('/userChangePassword',userChangePassword);
-app.put('/clientChangePassword',clientChangePassword);
-app.put('/adminChangePassword',adminChangePassword);
-app.get('/getUserSubjects',getUserSubjects);
-app.get('/getClientSubjects',getClientSubjects);
-app.post('/addUserSubject',addUserSubject);
-app.delete('/deleteUserFromSubject',deleteUserFromSubject);
-app.put('/editUserInsubject',editUserInSubject);
-app.post('/addNewToken',addNewToken);
-app.put('/editTokenDetails',editTokenDetails);
-app.get('/getTokensForClient',getTokensForClient);
-app.get('/getTokensForAdmin',getTokensForAdmin);
-app.post('/addNewSubject',addNewSubject);
-app.put('/editSubject',editSubject);
-app.put('/updateToken',updateToken);
-app.get('/getPunchRecordByUser',getPunchRecordByUser);
-app.get ('/getPunchRecordBySubject',getPunchRecordBySubject);
-app.get('/getClientSubjectDetails',getClientSubjectDetails);
-app.get ('/getUserSubjectDetalis',getUserSubjectDetails);
-app.get('/getUserWhichInSubject',getUserWhichInSubject);
-app.get('/getTokenById',getTokenById);
+app.get('/getUserForDevice', getUserForDevice);
+app.post('/saveRfid', saveRfid);
+app.post('/userRegister', userRegister);
+app.post('/clientRegister', clientRegister);
+app.put('/clientUpdate', clientUpdate);
+app.put('/userUpdate', userUpdate);
+app.put('/userChangePassword', userChangePassword);
+app.put('/clientChangePassword', clientChangePassword);
+app.put('/adminChangePassword', adminChangePassword);
+app.get('/getUserSubjects', getUserSubjects);
+app.get('/getClientSubjects', getClientSubjects);
+app.post('/addUserSubject', addUserSubject);
+app.delete('/deleteUserFromSubject', deleteUserFromSubject);
+app.put('/editUserInsubject', editUserInSubject);
+app.post('/addNewToken', addNewToken);
+app.put('/editTokenDetails', editTokenDetails);
+app.get('/getTokensForClient', getTokensForClient);
+app.get('/getTokensForAdmin', getTokensForAdmin);
+app.post('/addNewSubject', addNewSubject);
+app.put('/editSubject', editSubject);
+app.put('/updateToken', updateToken);
+app.get('/getPunchRecordByUser', getPunchRecordByUser);
+app.get('/getPunchRecordBySubject', getPunchRecordBySubject);
+app.get('/getClientSubjectDetails', getClientSubjectDetails);
+app.get('/getUserSubjectDetalis', getUserSubjectDetails);
+app.get('/getUserWhichInSubject', getUserWhichInSubject);
+app.get('/getTokenById', getTokenById);
 app.get("/getAllClients", getAllClients);
 app.get('/getAllUsers', getAllUsers);
 app.put('/updateClientStatus', updateClientStatus);
 app.put('/updateUserStatus', updateUserStatus);
 app.get('/getPurchasedTokens', getPurchasedTokens);
+app.post('/applyLeave', applyLeave);
+app.get('/getUserLeaves', getUserLeaves);
+app.get('/getAllLeaveRequests', getAllLeaveRequests);
+app.put('/updateLeaveStatus', updateLeaveStatus);
+app.get('/getClientDashboardStats', getClientDashboardStats);
+
 // Start the server
 const httpsServer = https.createServer(credentials, app);
 
