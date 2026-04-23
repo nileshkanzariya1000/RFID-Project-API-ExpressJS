@@ -12,7 +12,7 @@ async function getClientSubjectDetails(req, res) {
         // Updated query to join client_token and token_details
         const result = await client.query(
             `SELECT c.pass_key, c.purchase_date, c.expire_date, c.token_id, 
-                    t.price, t.duration_day, t.description,t.name
+                    t.price, t.duration_day, t.description,t.name,c.status
              FROM client_token c
              JOIN token_detail t ON c.token_id = t.token_id
              WHERE c.ct_id = $1`,

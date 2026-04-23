@@ -46,7 +46,7 @@ const getAllLeaveRequests = require('./Api_request/getAllLeaveRequests');
 const applyLeave = require('./Api_request/applyLeave');
 const getUserLeaves = require('./Api_request/getUserLeaves');
 const updateLeaveStatus = require('./Api_request/updateLeaveStatus');
-
+const {getAdminDashboardStats}= require('./Api_request/getAdminDashboardStats');
 const app = express();
 const port = 3000;
 // Load SSL certificate and key files
@@ -96,6 +96,7 @@ app.get('/getAllLeaveRequests', getAllLeaveRequests);
 app.post('/applyLeave', applyLeave);
 app.get('/getUserLeaves', getUserLeaves);
 app.put('/updateLeaveStatus', updateLeaveStatus);
+app.get('/getAdminDashboardStats', getAdminDashboardStats);
 // Start the server
 const httpsServer = https.createServer(credentials, app);
 
