@@ -1,9 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const https = require('https');
-const http = require('http');  // Add HTTP module
+const http = require('http');
 const fs = require('fs');
-
 
 const adminLogin = require('./Api_request/adminLogin');
 const clientLogin = require('./Api_request/clientLogin');
@@ -17,7 +16,6 @@ const clientUpdate = require('./Api_request/clientUpdate');
 const userUpdate = require('./Api_request/userUpdate');
 const userChangePassword = require('./Api_request/userChangePassword');
 const clientChangePassword = require('./Api_request/clientChangePassword');
-const getUserSubject = require('./Api_request/getUserSubjects');
 const getClientSubjects = require('./Api_request/getClientSubjects');
 const addUserSubject = require('./Api_request/addUserSubject');
 const getUserSubjects = require('./Api_request/getUserSubjects');
@@ -47,16 +45,13 @@ const getUserLeaves = require('./Api_request/getUserLeaves');
 const getAllLeaveRequests = require('./Api_request/getAllLeaveRequests');
 const updateLeaveStatus = require('./Api_request/updateLeaveStatus');
 const getClientDashboardStats = require('./Api_request/getClientDashboardStats');
+const updatePurchasedTokenStatus = require('./Api_request/updatePurchasedTokenStatus');
+const getAdminDashboardStats = require('./Api_request/getAdminDashboardStats');
 
 const app = express();
-const port = 3000;
-// Load SSL certificate and key files
-const privateKey = fs.readFileSync('C:/Users/kakadiya nishil/Desktop/rfid-react-project/RFID-Project-API-ExpressJS/ssl/key.pem', 'utf8');
-const certificate = fs.readFileSync('C:/Users/kakadiya nishil/Desktop/rfid-react-project/RFID-Project-API-ExpressJS/ssl/cert.pem', 'utf8');
-const credentials = { key: privateKey, cert: certificate };
 
 app.use(cors());
-app.use(express.json());  // To parse JSON bodies
+app.use(express.json());
 
 app.post('/adminlogin', adminLogin);
 app.post('/clientlogin', clientLogin);
@@ -98,21 +93,35 @@ app.get('/getUserLeaves', getUserLeaves);
 app.get('/getAllLeaveRequests', getAllLeaveRequests);
 app.put('/updateLeaveStatus', updateLeaveStatus);
 app.get('/getClientDashboardStats', getClientDashboardStats);
+app.put('/updatePurchasedTokenStatus', updatePurchasedTokenStatus);
+app.get('/getAdminDashboardStats', getAdminDashboardStats);
 
-// Start the server
-const httpsServer = https.createServer(credentials, app);
+// Support both HTTPS (local) and HTTP (deployment like Render)
+const PORT = process.env.PORT || 3000;
 
-// Create HTTP server (non-secure)
-const httpServer = http.createServer(app);
+if (process.env.NODE_ENV === 'production') {
+  // On Render/cloud: use plain HTTP
+  app.listen(PORT, () => {
+    console.log("Server running on port " + PORT);
+  });
+} else {
+  // Local: try HTTPS with SSL certs
+  try {
+    const privateKey = fs.readFileSync('C:/Users/kakadiya nishil/Desktop/rfid-react-project/RFID-Project-API-ExpressJS/ssl/key.pem', 'utf8');
+    const certificate = fs.readFileSync('C:/Users/kakadiya nishil/Desktop/rfid-react-project/RFID-Project-API-ExpressJS/ssl/cert.pem', 'utf8');
+    const credentials = { key: privateKey, cert: certificate };
 
+    const httpsServer = https.createServer(credentials, app);
+    const httpServer = http.createServer(app);
 
-
-// Start the HTTPS server on port 3001
-httpsServer.listen(3001, () => {
-  console.log(`HTTPS server running on https://localhost:3001`);
-});
-
-// Start the HTTP server on port 3000 (or 80)
-httpServer.listen(3000, () => {
-  console.log(`HTTP server running on http://localhost:3000`);
-});
+    httpsServer.listen(443, () => console.log("HTTPS Server running on port 443"))
+      .on('error', (err) => console.error("HTTPS Server failed to start:", err.message));
+    httpServer.listen(PORT, () => console.log("HTTP Server running on port " + PORT))
+      .on('error', (err) => console.error("HTTP Server failed to start:", err.message));
+  } catch (e) {
+    // SSL certs not found, fallback to HTTP
+    app.listen(PORT, () => {
+      console.log("Server running on port " + PORT + " (HTTP fallback)");
+    });
+  }
+}
